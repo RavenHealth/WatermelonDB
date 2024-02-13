@@ -155,22 +155,12 @@ const buildTasks = (options) => {
     },
     {
       title: 'publish package',
-      task: () => {
-        console.log('\u0007')
-        return listrInput('2-Factor Authentication code', {
-          validate: (otp) => {
-            return Boolean(otp && otp.match(/\d{6}/))
-          },
-          done: (otp) =>
-            execa('npm', [
-              'publish',
-              `./dist/nozbe-watermelondb-v${version}.tgz`,
-              `--otp=${otp}`,
-              '--tag',
-              tag,
-            ]),
-        })
-      },
+      task: () => execa('npm', [
+        'publish',
+        `./dist/ravenhealth-watermelondb-v${version}.tgz`,
+        '--tag',
+        tag,
+      ]),
     },
     {
       title: 'git push',

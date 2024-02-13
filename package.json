@@ -1,5 +1,5 @@
 {
-  "name": "@nozbe/watermelondb",
+  "name": "@ravenhealth/watermelondb",
   "description": "Build powerful React Native and React web apps that scale from hundreds to tens of thousands of records and remain fast",
   "version": "0.26.0",
   "scripts": {
@@ -30,8 +30,8 @@
   },
   "types": "src/index.d.ts",
   "author": "@Nozbe",
-  "homepage": "https://github.com/Nozbe/WatermelonDB#readme",
-  "bugs": "https://github.com/Nozbe/WatermelonDB/issues",
+  "homepage": "https://github.com/RavenHealth/WatermelonDB#readme",
+  "bugs": "https://github.com/RavenHealth/WatermelonDB/issues",
   "license": "MIT",
   "keywords": [
     "database",
@@ -52,7 +52,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nozbe/WatermelonDB.git"
+    "url": "https://github.com/RavenHealth/WatermelonDB.git"
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",
@@ -65,7 +65,7 @@
     "sql-escape-string": "^1.1.0"
   },
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
