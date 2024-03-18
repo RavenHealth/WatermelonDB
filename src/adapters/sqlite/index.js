@@ -52,6 +52,8 @@ export default class SQLiteAdapter implements DatabaseAdapter {
 
   migrations: ?SchemaMigrations
 
+  migrationCallback: ?Function
+
   _migrationEvents: ?MigrationEvents
 
   _tag: ConnectionTag = connectionTag()
@@ -70,12 +72,14 @@ export default class SQLiteAdapter implements DatabaseAdapter {
       dbName,
       schema,
       migrations,
+      migrationCallback,
       migrationEvents,
       usesExclusiveLocking = false,
       experimentalUnsafeNativeReuse = false,
     } = options
     this.schema = schema
     this.migrations = migrations
+    this.migrationCallback = migrationCallback
     this._migrationEvents = migrationEvents
     this.dbName = this._getName(dbName)
     this._dispatcherType = getDispatcherType(options)
@@ -161,6 +165,10 @@ export default class SQLiteAdapter implements DatabaseAdapter {
 
     if (migrationSteps) {
       logger.log(`[SQLite] Migrating from version ${databaseVersion} to ${this.schema.version}...`)
+
+      if (this.migrationCallback) {
+        this.migrationCallback(this)
+      }
 
       if (this._migrationEvents && this._migrationEvents.onStart) {
         this._migrationEvents.onStart()

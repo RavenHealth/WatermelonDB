@@ -42,6 +42,8 @@ export default class DatabaseDriver {
 
   migrations: ?SchemaMigrations
 
+  migrationCallback: ?Function
+
   loki: Loki
 
   cachedRecords: Map<TableName<any>, Set<RecordId>> = new Map()
@@ -50,10 +52,11 @@ export default class DatabaseDriver {
   _isBroken: boolean = false
 
   constructor(options: LokiAdapterOptions): void {
-    const { schema, migrations } = options
+    const { schema, migrations, migrationCallback } = options
     this.options = options
     this.schema = schema
     this.migrations = migrations
+    this.migrationCallback = migrationCallback
   }
 
   async setUp(): Promise<void> {
@@ -349,6 +352,11 @@ export default class DatabaseDriver {
 
       if (migrationSteps) {
         logger.log(`[Loki] Migrating from version ${dbVersion} to ${this.schema.version}...`)
+
+        if (this.migrationCallback) {
+          this.migrationCallback(this)
+        }
+
         try {
           await this._migrate(migrationSteps)
         } catch (error) {

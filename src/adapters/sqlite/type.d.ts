@@ -2,6 +2,7 @@ import type { ResultCallback } from '../../utils/fp/Result'
 import type { AppSchema } from '../../Schema'
 import type { SchemaMigrations } from '../../Schema/migrations'
 import { $Exact } from '../../types'
+import {DatabaseAdapter} from "../type";
 
 export type SQL = string
 export type SQLiteArg = string | boolean | number | null
@@ -17,6 +18,7 @@ export type SQLiteAdapterOptions = $Exact<{
   dbName?: string,
   schema: AppSchema,
   migrations?: SchemaMigrations,
+  migrationCallback?: (database: DatabaseAdapter) => void,
   // The new way to run the database in synchronous mode.
   jsi?: boolean,
   migrationEvents?: MigrationEvents,
