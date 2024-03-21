@@ -29,6 +29,8 @@ export interface DatabaseAdapter {
 
   migrations?: SchemaMigrations // TODO: Not optional
 
+  fetch?: (table: string, id: string) => Promise<any>
+
   // Fetches given (one) record or null. Should not send raw object if already cached in JS
   find(table: TableName<any>, id: RecordId, callback: ResultCallback<CachedFindResult>): void
 

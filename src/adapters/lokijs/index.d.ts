@@ -23,6 +23,7 @@ export type LokiAdapterOptions = $Exact<{
   schema: AppSchema
   migrations?: SchemaMigrations
   migrationCallback?: (database: DatabaseAdapter) => void
+  fetch?: (table: string, id: string) => Promise<any>
   // (true by default) Although web workers may have some throughput benefits, disabling them
   // may lead to lower memory consumption, lower latency, and easier debugging
   useWebWorker?: boolean

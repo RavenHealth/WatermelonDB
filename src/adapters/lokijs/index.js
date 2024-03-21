@@ -27,6 +27,7 @@ export type LokiAdapterOptions = $Exact<{
   schema: AppSchema,
   migrations?: SchemaMigrations,
   migrationCallback?: (database: DatabaseAdapter) => void,
+  fetch?: (table: string, id: string) => Promise<any>,
   // (true by default) Although web workers may have some throughput benefits, disabling them
   // may lead to lower memory consumption, lower latency, and easier debugging
   useWebWorker?: boolean,
@@ -87,18 +88,21 @@ export default class LokiJSAdapter implements DatabaseAdapter {
 
   migrations: ?SchemaMigrations
 
+  fetch: ?Function
+
   _options: LokiAdapterOptions
 
   constructor(options: LokiAdapterOptions): void {
     this._options = options
     this.dbName = options.dbName || 'loki'
-    const { schema, migrations } = options
+    const { schema, migrations, fetch } = options
 
     const useWebWorker = options.useWebWorker ?? process.env.NODE_ENV !== 'test'
     this._dispatcher = new LokiDispatcher(useWebWorker)
 
     this.schema = schema
     this.migrations = migrations
+    this.fetch = fetch
 
     if (process.env.NODE_ENV !== 'production') {
       invariant(

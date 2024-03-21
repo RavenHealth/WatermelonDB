@@ -20,6 +20,7 @@ export type SQLiteAdapterOptions = $Exact<{
   schema: AppSchema,
   migrations?: SchemaMigrations,
   migrationCallback?: Function,
+  fetch?: (table: string, id: string) => Promise<any>,
   // The new way to run the database in synchronous mode.
   jsi?: boolean,
   // As of 0.26, WatermelonDB uses a new implementation of the database bridge when NOT in the JSI mode
