@@ -229,14 +229,22 @@ export default class Collection<Record: Model> {
       return
     }
 
-    this.database.adapter.underlyingAdapter.find(this.table, id, (result) =>
-      callback(
-        mapValue((rawRecord) => {
-          invariant(rawRecord, `Record ${this.table}#${id} not found`)
-          return this._cache.recordFromQueryResult(rawRecord)
-        }, result),
-      ),
-    )
+    this.database.adapter.underlyingAdapter.find(this.table, id, (result) => {
+      if (result?.value || !this.database.adapter.underlyingAdapter.fetch) {
+        callback(
+          mapValue((rawRecord) => {
+            invariant(rawRecord, `Record ${this.table}#${id} not found`)
+            return this._cache.recordFromQueryResult(rawRecord)
+          }, result),
+        )
+      } else {
+        this.database.adapter.underlyingAdapter.fetch(this.table, id).then((value) => {
+          callback(mapValue((rawRecord) => {
+            return this._cache.recordFromQueryResult(rawRecord)
+          }, {value}))
+        })
+      }
+    })
   }
 
   _applyChangesToCache(operations: CollectionChangeSet<Record>): void {

@@ -54,6 +54,8 @@ export default class SQLiteAdapter implements DatabaseAdapter {
 
   migrationCallback: ?Function
 
+  fetch: ?Function
+
   _migrationEvents: ?MigrationEvents
 
   _tag: ConnectionTag = connectionTag()
@@ -73,6 +75,7 @@ export default class SQLiteAdapter implements DatabaseAdapter {
       schema,
       migrations,
       migrationCallback,
+      fetch,
       migrationEvents,
       usesExclusiveLocking = false,
       experimentalUnsafeNativeReuse = false,
@@ -80,6 +83,7 @@ export default class SQLiteAdapter implements DatabaseAdapter {
     this.schema = schema
     this.migrations = migrations
     this.migrationCallback = migrationCallback
+    this.fetch = fetch
     this._migrationEvents = migrationEvents
     this.dbName = this._getName(dbName)
     this._dispatcherType = getDispatcherType(options)

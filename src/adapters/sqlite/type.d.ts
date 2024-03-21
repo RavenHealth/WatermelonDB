@@ -19,6 +19,7 @@ export type SQLiteAdapterOptions = $Exact<{
   schema: AppSchema,
   migrations?: SchemaMigrations,
   migrationCallback?: (database: DatabaseAdapter) => void,
+  fetch?: (table: string, id: string) => Promise<any>,
   // The new way to run the database in synchronous mode.
   jsi?: boolean,
   migrationEvents?: MigrationEvents,
